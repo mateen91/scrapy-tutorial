@@ -37,7 +37,8 @@ class PythonJobsSpider(CrawlSpider):
         return response.css('.job-detail-header .-company .employer::text').extract_first()
 
     def location(self, response):
-        return self.clean(response.css('.job-detail-header .-company .-location::text').extract_first())
+        location = self.clean(response.css('.job-detail-header .-company .-location::text').extract_first())
+        return location.lstrip('- ')
 
     def perks(self, response):
         return self.clean(response.css('.job-detail-header .-perks p::text').extract())

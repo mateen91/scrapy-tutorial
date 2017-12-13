@@ -1,3 +1,5 @@
+import re
+
 from scrapy.spiders import CrawlSpider
 
 
@@ -25,13 +27,18 @@ class PythonJobsSpider(CrawlSpider):
         return response.css('.job-detail-header .-company .employer::text').extract_first()
 
     def location(self, response):
-        return response.css('.job-detail-header .-company .-location::text').extract_first()
+        return self.clean(response.css('.job-detail-header .-company .-location::text').extract_first())
 
     def perks(self, response):
-        return response.css('.job-detail-header .-perks p::text').extract()
+        return self.clean(response.css('.job-detail-header .-perks p::text').extract())
 
     def technologies(self, response):
         return response.css('.-technologies .-tags a::text').extract()
 
     def description(self, response):
-        return response.css('.-about-job-items .-item ::text').extract()
+        return self.clean(response.css('.-about-job-items .-item ::text').extract())
+
+    def clean(self, to_clean):
+        if isinstance(to_clean, str):
+            return re.sub('\s+', ' ', to_clean).strip()
+        return [re.sub('\s+', ' ', d).strip() for d in to_clean if d.strip()]

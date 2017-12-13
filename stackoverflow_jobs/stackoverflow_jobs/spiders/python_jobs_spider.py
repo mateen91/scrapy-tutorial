@@ -1,16 +1,25 @@
 import re
 
+from scrapy import Request
 from scrapy.spiders import CrawlSpider
 
 
 class PythonJobsSpider(CrawlSpider):
     name = 'python_jobs'
     start_urls = [
-        'https://stackoverflow.com/jobs/148919/data-scientist-e-commerce-machine-learning-zalando-se',
-        'https://stackoverflow.com/jobs/133344/backend-developer-python-python-backend-engineer-celeraone-gmbh'
+        'https://stackoverflow.com/jobs?sort=i&q=pyhton&l=Berlin%2C+Germany&d=20&u=Km'
     ]
 
     def parse(self, response):
+        job_urls = response.css('.-row .-title .job-link::attr(href)').extract()
+        for job_url in job_urls:
+            yield Request(url=response.urljoin(job_url), callback=self.parse_job)
+
+        next_page = response.css('.test-pagination-next::attr(href)').extract()
+        if next_page:
+            yield Request(url=response.urljoin(next_page[0]), callback=self.parse)
+
+    def parse_job(self, response):
         item = {}
         item['title'] = self.title(response)
         item['company'] = self.company(response)

@@ -27,6 +27,7 @@ class PythonJobsSpider(CrawlSpider):
         item['perks'] = self.perks(response)
         item['technologies'] = self.technologies(response)
         item['description'] = self.description(response)
+        item['url'] = response.url
         yield item
 
     def title(self, response):

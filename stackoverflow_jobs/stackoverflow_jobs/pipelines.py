@@ -8,4 +8,5 @@
 
 class StackoverflowJobsPipeline(object):
     def process_item(self, item, spider):
-        return item
+        # removing keys from item with empty values
+        return {k: v for k, v in item.items() if v}

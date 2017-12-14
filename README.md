@@ -1,7 +1,7 @@
 ## Data Extraction and Cleansing using Scrapy - Pycon Pakistan '17
 
 ### Introduction
-**Data Extraction** is one of the most useful skills in the field of data analytics. It is the first step of a Data Science project and it is followed by **Data Cleansing** proccess, which fixes inconsistence, incompleteness and incorrectness of data. 
+**Data Extraction** is one of the most useful skills in the field of data analytics. It is the first step of a Data Science project and it is followed by **Data Cleansing** process, which fixes inconsistence, incompleteness and incorrectness of data. 
 
 Data can be extracted from a variety of sources such as:
 - Databases
@@ -12,18 +12,18 @@ Data can be extracted from a variety of sources such as:
 In this tutorial we'll be focusing on **Web Scraping** and the tool that we'll be using is Python's [Scrapy](https://docs.scrapy.org/en/latest/). 
 
 ### Scrapy 
-Scrapy is a web scraping tool with excelent capabilities, some of it's features are as follows: 
+Scrapy is a web scraping tool with excellent capabilities, some of it's features are as follows: 
 
 - End to end tool for downloading, cleaning and saving data
 - Offers adequate post processing
 - Can handle websites behind login
-- Better error handling and resumable behaviour
+- Better error handling and resumable behavior
 - Above all, **Asynchronous**
 
 Please follow the [official scrapy documentation](https://doc.scrapy.org/en/latest/index.html) for more information.
 
-### Setting up the envrionment
-You'll need to install Scrapy on your system in order to run this crawler. We recommend you to install scrapy in a seperate python virtual environemnt. You may find the detailed installation guide [here](https://docs.scrapy.org/en/latest/intro/install.html).
+### Setting up the environment
+You'll need to install Scrapy on your system in order to run this crawler. We recommend you to install scrapy in a separate python virtual environment. You may find the detailed installation guide [here](https://docs.scrapy.org/en/latest/intro/install.html).
 
 ### Running the crawler
 You can run the crawl using the following command:
@@ -73,7 +73,7 @@ def parse(self, response):
         yield Request(url=response.urljoin(next_page[0]), callback=self.parse)
 ```
 
-`parse` is the default method that is called when the response(s) of the URL(s) mentioned in `start_urls` are recieved. As we need to pick all jobs available in the job listing page, therefore, we've picked the corresponding job page URLs using a CSS selector and requested all of those pages. We've also picked up the URLs for subsequent job listing pages. 
+`parse` is the default method that is called when the response(s) of the URL(s) mentioned in `start_urls` are received. As we need to pick all jobs available in the job listing page, therefore, we've picked the corresponding job page URLs using a CSS selector and requested all of those pages. We've also picked up the URLs for subsequent job listing pages. 
 
 ```
 def parse_job(self, response):
@@ -86,7 +86,7 @@ def parse_job(self, response):
     yield item
 ```
 
-You might have noticed that the callback for the job page requests in `parse` was `parse_job`, therefore, we'll be getting respones for all job pages in this method. Here we've declared a simple `item` dictionary that will hold data-points regarding a given job. Finally, the method yields the job dictionary. 
+You might have noticed that the callback for the job page requests in `parse` was `parse_job`, therefore, we'll be getting response for all job pages in this method. Here we've declared a simple `item` dictionary that will hold data-points regarding a given job. Finally, the method yields the job dictionary. 
 
 Rest of the class methods are just helper methods that take HTTP response as an argument and return corresponding data values.
 

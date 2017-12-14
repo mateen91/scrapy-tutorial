@@ -1,7 +1,7 @@
-import re
-
 from scrapy import Request
 from scrapy.spiders import CrawlSpider
+
+from stackoverflow_jobs.spiders.utils import clean
 
 
 class PythonJobsSpider(CrawlSpider):
@@ -37,19 +37,14 @@ class PythonJobsSpider(CrawlSpider):
         return response.css('.job-detail-header .-company .employer::text').extract_first()
 
     def location(self, response):
-        location = self.clean(response.css('.job-detail-header .-company .-location::text').extract_first())
+        location = clean(response.css('.job-detail-header .-company .-location::text').extract_first())
         return location.lstrip('- ')
 
     def perks(self, response):
-        return self.clean(response.css('.job-detail-header .-perks p::text').extract())
+        return clean(response.css('.job-detail-header .-perks p::text').extract())
 
     def technologies(self, response):
         return response.css('.-technologies .-tags a::text').extract()
 
     def description(self, response):
-        return self.clean(response.css('.-about-job-items .-item ::text').extract())
-
-    def clean(self, to_clean):
-        if isinstance(to_clean, str):
-            return re.sub('\s+', ' ', to_clean).strip()
-        return [re.sub('\s+', ' ', d).strip() for d in to_clean if d.strip()]
+        return clean(response.css('.-about-job-items .-item ::text').extract())

@@ -112,4 +112,4 @@ After an item gets yielded from the crawler, it's passed to this pipeline. Here 
 
 ### Credits
 - Authors: Ahmed Suffian Javed, Mateen Ahmed
-- [Pycon Pakistan '17](pycon.pk)
+- [Pycon Pakistan '17](http://pycon.pk)
